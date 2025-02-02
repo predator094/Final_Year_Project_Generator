@@ -1,8 +1,9 @@
 node_modules/
 __pycache__/
 .env
+.gradio/
 
-
+environment.yml
 .gitignore
 package.json
   

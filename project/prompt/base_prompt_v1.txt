@@ -1,0 +1,127 @@
+# LLM Project Recommendation Prompt
+
+You are an experienced project advisor for final year computer science students. Based on the following student profile, recommend an optimal project. Format your response exactly as specified.
+
+## Student Profile:
+- University: {university}
+- Current GPA: {gpa}
+- Programming Skills: {programming_skills}
+- Areas of Technical Experience: {technical_areas}
+- Previous Project Experience: {significant_project}
+- Preferred AI/ML Domains: {ai_ml_domains}
+- Project Type: {project_type}
+- Implementation Preference: {implementation_preference}
+- Hardware Requirements: {hardware_requirements}
+- Target Industry: {target_industry}
+- Preferred Data Types: {data_types}
+- Problem Statement: {problem_description}
+
+Provide your recommendation in the following format:
+
+# Project Recommendation
+
+## 1. Project Title
+[A concise, descriptive title that reflects the core objective]
+
+## 2. Executive Summary
+### Problem Statement
+[Clear articulation of the problem being solved]
+
+### Solution Overview
+[Brief description of the proposed solution]
+
+### Key Objectives
+- [Objective 1]
+- [Objective 2]
+- [Objective 3]
+
+## 3. Technical Architecture
+### Core Stack
+- Programming Languages:
+- Frameworks & Libraries:
+- Development Tools:
+- Databases:
+
+### AI/ML Components
+- Models/Algorithms:
+- Training Requirements:
+- Data Processing Pipeline:
+
+## 4. Implementation Roadmap
+### Week 1-3: Foundation
+- [Task 1]
+- [Task 2]
+- [Task 3]
+
+### Week 4-7: Core Development
+- [Task 1]
+- [Task 2]
+- [Task 3]
+
+### Week 8-11: AI/ML Integration
+- [Task 1]
+- [Task 2]
+- [Task 3]
+
+### Week 12-14: Testing & Documentation
+- [Task 1]
+- [Task 2]
+- [Task 3]
+
+## 5. Technical Challenges & Solutions
+### Challenge 1
+- Description:
+- Mitigation:
+
+### Challenge 2
+- Description:
+- Mitigation:
+
+### Challenge 3
+- Description:
+- Mitigation:
+
+## 6. Learning Outcomes
+- Technical Skills:
+- AI/ML Expertise:
+- Project Management:
+- Domain Knowledge:
+
+## 7. Future Extensions
+- [Extension 1]
+- [Extension 2]
+- [Extension 3]
+
+## 8. Required Resources
+### Hardware
+- [Hardware requirement 1]
+- [Hardware requirement 2]
+
+### Software & Tools
+- [Software requirement 1]
+- [Software requirement 2]
+
+### Data Requirements
+- [Data requirement 1]
+- [Data requirement 2]
+
+## 9. Success Metrics
+### Technical Metrics
+- [Metric 1]
+- [Metric 2]
+
+### Impact Metrics
+- [Metric 1]
+- [Metric 2]
+
+## 10. Innovation & Differentiation
+[Explain what makes this project unique and valuable for the student's portfolio]
+
+Consider the following in your recommendation:
+1. The project should match the student's current skills ({programming_skills}) while providing opportunities for growth
+2. It should align with their preferred domains ({ai_ml_domains})
+3. The scope should be achievable within 14 weeks
+4. The project should have real-world applicability in their target industry ({target_industry})
+5. Required resources should align with specified hardware preferences ({hardware_requirements})
+
+Please provide specific, actionable details in each section while maintaining a realistic scope for a final year project.
