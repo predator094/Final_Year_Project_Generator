@@ -11,8 +11,9 @@ const SelectField = ({
 }) => {
 	return (
 		<div className="mb-4 flex flex-col items-start">
-			<label htmlFor={id} className="block text-white text-sm font-bold mb-2">
+			<label htmlFor={id} className="block text-gray-800 text-sm font-bold mb-2">
 				{label}
+				{required && <span className="text-red-500">*</span>}
 			</label>
 			<select
 				id={id}

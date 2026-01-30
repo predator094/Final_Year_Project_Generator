@@ -14,7 +14,7 @@ const InputField = ({
 		<div className="mb-4">
 			<label
 				htmlFor={id}
-				className="block text-white text-left text-sm font-bold mb-2">
+				className="block text-gray-800 text-left text-sm font-bold mb-2">
 				{label}
 				{required && <span className="text-red-500">*</span>}
 			</label>

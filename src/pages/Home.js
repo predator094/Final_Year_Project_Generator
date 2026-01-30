@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import InputField from "../components/form/InputField";
 import SelectField from "../components/form/SelectField";
 import RadioGroup from "../components/form/RadioGroup";
 import TextAreaField from "../components/form/TextAreaField";
 import ChecklistGroup from "../components/form/CheckListGroup";
 import ProgressBar from "../components/form/ProgressBar";
+import AnimatedBackground from "../components/common/AnimatedBackground";
+import ErrorToast from "../components/common/ErrorToast";
+import { validateForm } from "../services/formValidation";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import "./Home.css";
 
 const Home = () => {
 	const [currentPage, setCurrentPage] = useState(1);
@@ -69,6 +76,9 @@ const Home = () => {
 	const formDataKeys = Object.keys(formData);
 	const navigate = useNavigate();
 	const totalPages = 7;
+	const [validationErrors, setValidationErrors] = useState([]);
+	const [showErrorModal, setShowErrorModal] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	useEffect(() => {
 		const formData = Cookies.get("formData");
@@ -110,18 +120,23 @@ const Home = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		let isValid = true;
-
-		formDataKeys.forEach((key) => {
-			if (!formData[key]) {
-				isValid = false;
-				return;
-			}
-		});
-		if (!isValid) {
-			alert("Please fill out all fields before submitting");
+		
+		// Validate form
+		const validation = validateForm(formData);
+		
+		if (!validation.isValid) {
+			setValidationErrors(validation.errors);
+			setShowErrorModal(true);
+			toast.error(`Please fill in ${validation.errors.length} missing field(s)`, {
+				position: "top-right",
+				autoClose: 3000,
+			});
 			return;
 		}
+		
+		setIsSubmitting(true);
+		toast.info("Submitting your form...", { autoClose: 2000 });
+		
 		try {
 			const response = await fetch("http://localhost:5000/process-form", {
 				method: "POST",
@@ -136,18 +151,41 @@ const Home = () => {
 			}
 			const result = await response.json();
 			console.log("Success:", result);
-			navigate("/result", { state: { result } });
+			toast.success("Form submitted successfully!");
+			setTimeout(() => {
+				navigate("/result", { state: { result } });
+			}, 1000);
 		} catch (error) {
 			console.error("Error:", error);
+			toast.error("An error occurred. Please try again.");
+			setIsSubmitting(false);
 			navigate("/result", { state: { error } });
 		}
 	};
+
+	const handleNavigateToPage = (page) => {
+		setCurrentPage(page);
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	};
 	const renderPage = () => {
+		const pageVariants = {
+			initial: { opacity: 0, x: 50 },
+			animate: { opacity: 1, x: 0 },
+			exit: { opacity: 0, x: -50 }
+		};
+
 		switch (currentPage) {
 			case 1:
 				return (
-					<div className="space-y-4">
-						<h2 className="text-xl font-semibold mb-4 text-left">
+					<motion.div 
+						className="space-y-4"
+						variants={pageVariants}
+						initial="initial"
+						animate="animate"
+						exit="exit"
+						transition={{ duration: 0.3 }}
+					>
+						<h2 className="text-xl font-semibold mb-4 text-left section-title">
 							Gemini API key
 						</h2>
 						<InputField
@@ -236,12 +274,19 @@ const Home = () => {
 							required
 							onChange={handleInputChange}
 						/>
-					</div>
+					</motion.div>
 				);
 			case 2:
 				return (
-					<div className="space-y-4">
-						<h2 className="text-xl font-semibold mb-4 text-left">
+					<motion.div 
+						className="space-y-4"
+						variants={pageVariants}
+						initial="initial"
+						animate="animate"
+						exit="exit"
+						transition={{ duration: 0.3 }}
+					>
+						<h2 className="text-xl font-semibold mb-4 text-left section-title">
 							Technical Skills
 						</h2>
 						<div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
@@ -364,12 +409,19 @@ const Home = () => {
 							onChange={handleInputChange}
 							required
 						/>
-					</div>
+					</motion.div>
 				);
 			case 3:
 				return (
-					<div className="space-y-4">
-						<h2 className="text-xl font-semibold mb-4 text-left">
+					<motion.div 
+						className="space-y-4"
+						variants={pageVariants}
+						initial="initial"
+						animate="animate"
+						exit="exit"
+						transition={{ duration: 0.3 }}
+					>
+						<h2 className="text-xl font-semibold mb-4 text-left section-title">
 							AI/ML Specific Questions
 						</h2>
 						<ChecklistGroup
@@ -465,12 +517,19 @@ const Home = () => {
 							onChange={handleInputChange}
 							required
 						/>
-					</div>
+					</motion.div>
 				);
 			case 4:
 				return (
-					<div className="space-y-4">
-						<h2 className="text-xl font-semibold mb-4 text-left">
+					<motion.div 
+						className="space-y-4"
+						variants={pageVariants}
+						initial="initial"
+						animate="animate"
+						exit="exit"
+						transition={{ duration: 0.3 }}
+					>
+						<h2 className="text-xl font-semibold mb-4 text-left section-title">
 							Career Aspirations
 						</h2>
 						<SelectField
@@ -533,12 +592,19 @@ const Home = () => {
 							onChange={handleTextChange}
 							required
 						/>
-					</div>
+					</motion.div>
 				);
 			case 5:
 				return (
-					<div className="space-y-4">
-						<h2 className="text-xl font-semibold mb-4 text-left">
+					<motion.div 
+						className="space-y-4"
+						variants={pageVariants}
+						initial="initial"
+						animate="animate"
+						exit="exit"
+						transition={{ duration: 0.3 }}
+					>
+						<h2 className="text-xl font-semibold mb-4 text-left section-title">
 							Project Preferences
 						</h2>
 						<InputField
@@ -625,12 +691,19 @@ const Home = () => {
 							onChange={handleInputChange}
 							required
 						/>
-					</div>
+					</motion.div>
 				);
 			case 6:
 				return (
-					<div className="space-y-4">
-						<h2 className="text-xl font-semibold mb-4 text-left">
+					<motion.div 
+						className="space-y-4"
+						variants={pageVariants}
+						initial="initial"
+						animate="animate"
+						exit="exit"
+						transition={{ duration: 0.3 }}
+					>
+						<h2 className="text-xl font-semibold mb-4 text-left section-title">
 							Psychological Assessment
 						</h2>
 						<div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
@@ -747,12 +820,19 @@ const Home = () => {
 							onChange={handleSelectChange}
 							required
 						/>
-					</div>
+					</motion.div>
 				);
 			case 7:
 				return (
-					<div className="space-y-4">
-						<h2 className="text-xl font-semibold mb-4 text-left">
+					<motion.div 
+						className="space-y-4"
+						variants={pageVariants}
+						initial="initial"
+						animate="animate"
+						exit="exit"
+						transition={{ duration: 0.3 }}
+					>
+						<h2 className="text-xl font-semibold mb-4 text-left section-title">
 							Interdisciplinary Interests
 						</h2>
 						<InputField
@@ -815,7 +895,7 @@ const Home = () => {
 							onChange={handleInputChange}
 							required
 						/>
-					</div>
+					</motion.div>
 				);
 			default:
 				return null;
@@ -823,42 +903,88 @@ const Home = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300">
-			<div className="container mx-auto p-6">
-				<h1 className="text-2xl font-bold mb-6 text-center">
-					Comprehensive Form
-				</h1>
-				<form className="w-3/4 mx-auto">
+		<div className="home-container">
+			<AnimatedBackground />
+			<ToastContainer
+				position="top-right"
+				autoClose={3000}
+				hideProgressBar={false}
+				newestOnTop
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="colored"
+			/>
+			<ErrorToast
+				errors={validationErrors}
+				onClose={() => setShowErrorModal(false)}
+				onNavigateToPage={handleNavigateToPage}
+			/>
+			<div className="home-content">
+				<motion.h1 
+					className="page-title"
+					initial={{ opacity: 0, y: -50 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
+				>
+					🎓 Project Assessment Form
+				</motion.h1>
+				<motion.form 
+					className="form-card"
+					initial={{ opacity: 0, scale: 0.9 }}
+					animate={{ opacity: 1, scale: 1 }}
+					transition={{ duration: 0.5, delay: 0.2 }}
+				>
 					<ProgressBar currentPage={currentPage} totalPages={totalPages} />
 					{renderPage()}
 
-					<div className="flex justify-between mt-8">
+					<div className="navigation-buttons">
 						{currentPage > 1 && (
-							<button
+							<motion.button
 								type="button"
 								onClick={handlePrevious}
-								className="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-								Previous
-							</button>
+								className="btn btn-previous"
+								whileHover={{ scale: 1.05 }}
+								whileTap={{ scale: 0.95 }}
+							>
+								<span>← Previous</span>
+							</motion.button>
 						)}
-						{currentPage < 7 && (
-							<button
+						{currentPage < 7 ? (
+							<motion.button
 								type="button"
 								onClick={handleNext}
-								className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-								Next
-							</button>
-						)}
-						{currentPage === 7 && (
-							<button
+								className="btn btn-next"
+								style={{ marginLeft: currentPage === 1 ? 'auto' : '0' }}
+								whileHover={{ scale: 1.05 }}
+								whileTap={{ scale: 0.95 }}
+							>
+								<span>Next →</span>
+							</motion.button>
+						) : (
+							<motion.button
 								type="submit"
 								onClick={handleSubmit}
-								className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-								Submit
-							</button>
+								disabled={isSubmitting}
+								className={`btn btn-submit ${isSubmitting ? 'submitting' : ''}`}
+								style={{ marginLeft: 'auto' }}
+								whileHover={!isSubmitting ? { scale: 1.05 } : {}}
+								whileTap={!isSubmitting ? { scale: 0.95 } : {}}
+							>
+								{isSubmitting ? (
+									<span>
+										<span className="spinner"></span>
+										Submitting...
+									</span>
+								) : (
+									<span>✓ Submit Form</span>
+								)}
+							</motion.button>
 						)}
 					</div>
-				</form>
+				</motion.form>
 			</div>
 		</div>
 	);

@@ -17,10 +17,13 @@ const ChecklistGroup = ({
 	};
 
 	return (
-		<div className="mb-4 flex flex-col items-start">
-			<label className="block text-white text-sm font-bold mb-2">{label}</label>
+		<div className="mb-4 flex flex-col items-start w-full bg-gray-100 p-3 rounded-md border border-gray-300">
+			<label className="block text-gray-800 text-sm font-bold mb-2">
+				{label}
+				{required && <span className="text-red-500">*</span>}
+			</label>
 			{options.map((option) => (
-				<label key={option.value} className="block text-gray-400">
+				<label key={option.value} className="block text-gray-700 font-medium">
 					<input
 						type="checkbox"
 						name={name}

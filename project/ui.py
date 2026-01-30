@@ -135,7 +135,6 @@ def create_ui():
 
                 status_message = gr.Markdown(
                     "### Results will appear here after submission",
-                    show_copy_button=True,
                 )
 
             #     with gr.Accordion("Recommended Projects", open=False):
@@ -276,4 +275,4 @@ def create_ui():
 demo = create_ui()
 if __name__ == "__main__":
     app = create_ui()
-    app.launch()
+    app.launch(pwa=True)
